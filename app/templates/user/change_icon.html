@@ -1,0 +1,18 @@
+{% extends 'common/base.html' %}
+
+{% block title %}修改头像{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class='center-block'><h3 class>修改图片</h3></div>
+            {{ wtf.quick_form(form) }}
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+</div>
+{% endblock %}

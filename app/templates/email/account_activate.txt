@@ -1,0 +1,4 @@
+尊敬的{{ username }}您好.
+尊敬的用户,您好:
+    您正在lemon的博客进行邮箱验证的操作,请点击以下链接进行邮箱验证
+url_for('user.activate',token=token,_external=True) }}

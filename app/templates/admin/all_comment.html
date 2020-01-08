@@ -1,0 +1,59 @@
+{% extends "common/admin_base.html" %}
+{% from 'common/macro.html' import pagination_show %}
+
+{% block content %}
+    <div class="box box-primary">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th>评论ID</th>
+                    <th>评论内容</th>
+                    <th>评论时间</th>
+                    <th>评论作者</th>
+                    <th>文章ID</th>
+                    <th>支持数</th>
+                    <th>反对数</th>
+                    <th>删除</th>
+                </tr>
+                {% for comment in comments %}
+                    <tr>
+                        <td>{{ comment.comment_id }}</td>
+                        <td>{{ comment.comment_text[3:-4] }}</td>
+                        <td>{{ comment.comment_date }}</td>
+                        <td>{{ comment.comment_name }}</td>
+                        <td>{{ comment.article_id }}</td>
+                        <td>{{ comment.comment_support }}</td>
+                        <td>{{ comment.comment_oppose }}</td>
+                        <td><a class='fa fa-lg fa-warning text-red' href='del_comment/{{ comment.comment_id }}'></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {{ pagination_show(pagination, 'admin.all_user') }}
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function initPage() {
+            slide_value = $(".slider").val() == "" ? 50 : parseInt($(".slider").val());
+            $(".slider").slider({
+                id: "blue",
+                max: 100,
+                value: slide_value
+            });
+
+            $('.status').bootstrapSwitch();
+            $(".status").on("switchChange.bootstrapSwitch", function (event, state) {
+                switchStatus($(this).data("id"), state, this);
+            });
+        }
+
+        function switchStatus(id, status, switchBox) {
+            restTemplate("PUT", "/notifies/" + id + "/status/" + status, null, function () {
+                $($(switchBox)).bootstrapSwitch("state", status);
+            });
+        }
+    </script>
+{% endblock %}

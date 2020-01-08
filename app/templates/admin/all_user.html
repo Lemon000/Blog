@@ -1,0 +1,66 @@
+{% extends "common/admin_base.html" %}
+{% from 'common/macro.html' import pagination_show %}
+{% block content %}
+    <div class="box box-primary">
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th>用户ID</th>
+                    <th>用户昵称</th>
+                    <th>用户密码</th>
+                    <th>用户邮箱</th>
+                    <th>用户状态</th>
+                    <th>编辑</th>
+                    <th>删除</th>
+                </tr>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.password_hash }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.confirm %}
+                                <input type="checkbox" data-id="{{ user.id }}" class="status" data-on-text="生效"
+                                       data-off-text="失效"
+                                       data-size="mini">
+                            {% else %}
+                                <input type="checkbox" data-id="{{ user.id }}" class="status" data-on-text="生效"
+                                       data-off-text="失效"
+                                       data-size="mini" checked>
+                            {% endif %}
+                        </td>
+                        <td><a class='fa fa-lg fa-edit text-light-blue'
+                               href='#'></a></td>
+                        <td><a class='fa fa-lg fa-warning text-red' href="del_user/{{ user.id }}"></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {{ pagination_show(pagination, 'admin.all_user') }}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function initPage() {
+            slide_value = $(".slider").val() == "" ? 50 : parseInt($(".slider").val());
+            $(".slider").slider({
+                id: "blue",
+                max: 100,
+                value: slide_value
+            });
+
+            $('.status').bootstrapSwitch();
+            $(".status").on("switchChange.bootstrapSwitch", function (event, state) {
+                switchStatus($(this).data("id"), state, this);
+            });
+        }
+
+        function switchStatus(id, status, switchBox) {
+            restTemplate("PUT", "/notifies/" + id + "/status/" + status, null, function () {
+                $($(switchBox)).bootstrapSwitch("state", status);
+            });
+        }
+    </script>
+{% endblock %}

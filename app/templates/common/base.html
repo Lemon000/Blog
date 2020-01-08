@@ -1,0 +1,134 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block title %}博客{% endblock %}
+{%- block styles %}
+    {{ super() }}
+    <link href="{{ url_for('static',filename='css/mycss.css',_external=True) }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/xscss.css') }}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/github-markdown.css') }}">
+    <style>
+
+        html, body {
+            height: 100%;
+            background-image: url("{{ url_for('static',filename='imgs/bg.jpg') }}");
+            background-attachment:fixed;
+        }
+        {#div {#}
+        {#    opacity: 0.98;#}
+        {#}#}
+
+        .wrap {
+            height: auto;
+            min-height: 100%;
+            _height: 100%;
+        }
+
+        .main {
+            padding-bottom: 80px;
+        }
+
+        .footer {
+            position: relative;
+            height: 80px;
+            line-height: 80px;
+            margin-top: -80px;
+            background: #333;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+        }
+    </style>
+{%- endblock styles %}
+{% block navbar %}
+    <nav class="navbar navbar-inverse" >
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target=".navbar-collapse"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">个人博客</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                    <li><a href="{{ url_for('main.get_python') }}">Python</a></li>
+                    <li><a href="{{ url_for('main.get_java') }}">Java</a></li>
+                    <li><a href="{{ url_for('main.get_others') }}">其他</a></li>
+                    <li><a href="https://sugar.aipage.com/dashboard/170e6ac864bcdafffe40bbe90d4ff024?tdsourcetag=s_pctim_aiomsg">大数据</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if  current_user.is_authenticated %}
+                        <li><a href="{{ url_for('main.wrarticle') }}"><span class="glyphicon glyphicon-user"></span>写点什么吧</a>
+                        </li>
+                        <li><a href="{{ url_for('main.manage_article') }}"><span
+                                class="glyphicon glyphicon-user"></span>管理文章</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">{{ current_user.username }} <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ url_for('user.profile') }}">个人信息</a></li>
+                                <li><a href="{{ url_for('user.change_password') }}">修改密码</a></li>
+{#                                <li><a href="#">修改邮箱</a></li>#}
+{#                                <li role="separator" class="divider"></li>#}
+                                <li><a href="{{ url_for('user.change_icon') }}">修改头像</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('user.logout') }}">退出</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('user.login') }}">登录</a></li>
+                        <li><a href="{{ url_for('user.register') }}">注册</a></li>
+                    {% endif %}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+    </nav>
+{#    {% block content %}#}
+ <div class="container">
+        {#    get_flashed_message获取所有的flash消息#}
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning alert-dismissable"
+                 role="alert">
+                <button type="button" class="close"
+                        data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{#{% endblock %}#}
+    {% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    {{ moment.locale('zh-CN') }}
+
+{% endblock %}
+
+
