@@ -72,7 +72,7 @@ pbr==3.1.1
 peewee==3.13.1
 pexpect==4.4.0
 pickleshare==0.7.4
-Pillow==4.3.0
+Pillow==6.2.0
 prettytable==0.7.2
 prompt-toolkit==1.0.15
 ptyprocess==0.5.2
