@@ -14,7 +14,7 @@ cycler==0.10.0
 decorator==4.2.1
 docutils==0.14
 dominate==2.3.1
-Flask==0.12.2
+Flask==1.0
 Flask-Admin==1.5.4
 Flask-BabelEx==0.9.3
 Flask-Bootstrap==3.3.7.1
