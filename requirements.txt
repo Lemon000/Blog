@@ -51,7 +51,7 @@ kiwisolver==1.1.0
 lamson==1.3.4
 lazy-object-proxy==1.3.1
 lockfile==0.12.2
-lxml==4.2.1
+lxml==4.6.2
 Mako==1.0.7
 Markdown==2.6.11
 markdown2==2.3.5
